@@ -1,0 +1,135 @@
+package project; //package
+
+import java.util.Scanner;
+
+class user { //classes
+	String Fname,Lname,password; //Datatype
+	public void login() { //access specifier
+		System.out.println("WELCOME TO 'BOOKYOURSHOW' please create an account to continue");
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Enter your First Name : ");
+		Fname = sc.nextLine();
+		System.out.print("Enter your :Last Name : ");
+		Lname = sc.next();
+		System.out.print("Enter password : ");
+		password = sc.next();		
+		}
+}
+class movie extends user{		//inheritance
+		int selectmovie;
+		String savemovie;
+		public void movieName(String[] mname) { //method function with parameter	
+			try {   //Exception handling
+				System.out.println("SELECT THE MOVIE YOU WANT TO WATCH");
+				for(int i=0; i<mname.length; i++) { //for-loop control statement 
+					System.out.println((i+1)+" "+mname[i]);
+					}
+				Scanner sc = new Scanner(System.in);
+				selectmovie = sc.nextInt();
+				System.out.println("Movie selected "+mname[selectmovie-1]); //array out of bounds exception		
+				savemovie = mname[selectmovie-1];
+			}
+			catch(Exception e) {
+				System.out.println("Retry please enter a valid number");
+				}
+		}
+}
+class theatre extends movie{
+	int selecttheatre;
+	String savetheatre;
+	public theatre(String[] thname) { //constructor
+		try {
+			System.out.println("CHECKOUT THE CINEMA HALLS SHOWING THIS MOVIE :");
+			for(int i=0; i<thname.length; i++) {
+				System.out.println((i+1)+" "+thname[i]);
+			}
+			System.out.println("Please select a cinema hall to proceed");
+			Scanner sc = new Scanner(System.in);
+			selecttheatre = sc.nextInt();
+			savetheatre = thname[selecttheatre-1];
+			if(selecttheatre > 0 && selecttheatre <4) {
+			switch(selecttheatre) { //switch-case 
+				case 1:
+					System.out.println("Thank you for selecting AMB cinema, checkout the available seats");
+					break;
+				case 2:
+					System.out.println("Thank you for selecting PVR cinema, checkout the available seats");
+					break;
+				case 3:
+					System.out.println("Thank you for selecting INOX cinema, checkout the available seats");
+					break;
+				}
+			}
+			else System.out.println("please enter a valid number");
+		}
+		
+		catch(Exception e) {
+			System.out.println("Retry, please enter a valid number");
+			}
+		}
+}
+
+class tickets{
+	int selectticket,total,ntickets;
+	String saveticket;
+	public tickets(String[] tprice) {
+		System.out.println("Select the type of ticket you want");
+		for(int i=0; i<tprice.length; i++) {
+			System.out.println((i+1)+" "+tprice[i]);
+		}
+		try {
+			Scanner sc = new Scanner(System.in);
+			selectticket = sc.nextInt();
+			System.out.println("Seat selected :"+tprice[selectticket-1]);
+			System.out.println("How many tickets do you want?");
+			ntickets = sc.nextInt();
+			saveticket = tprice[selectticket-1];
+			switch(selectticket) {
+			case 1:
+				total = ntickets*250;
+				break;
+			case 2:
+				total = ntickets*350;
+				break;
+			case 3:
+				total = ntickets*500;
+				break;
+			default: 
+				total = 0;
+				break;
+			}
+		}
+		catch(Exception e) {
+			System.out.println("Retry, please enter a valid number ");
+		}
+	}
+}
+
+public class movieticket {
+	public static void main(String[] args) {
+		String[] mname = {"KGF2","PATHAN","AVATAR","TOPGUN","WALTAIR VEERAYYAA"}; //array initialization
+		String[] thname = {"AMB cinemas","PVR cinemas","INOX cinemas"};
+		String[] tprice = {"ECONOMY - Rs.250","GOLD - Rs.350","PREMIUM - Rs.500"};
+		movie m = new movie(); //object creation
+		m.login();
+		if(m.Fname.length()>0) {	
+			System.out.println("Welcome to the ticket counter "+m.Fname+" "+m.Lname);
+			m.movieName(mname);
+		}
+		else System.out.println("Please login to continue");
+		
+		theatre th = new theatre(thname);
+		tickets ts = new tickets(tprice);
+		if(ts.selectticket>0 && ts.selectticket<4) {
+			System.out.println("Thank you for using BOOKYOURSHOW");
+			System.out.println("TICKET BILL");
+			System.out.println("Name : " +m.Fname+" "+m.Lname);
+			System.out.println("Movie : "+m.savemovie);
+			System.out.println("Theatre : "+th.savetheatre);
+			System.out.println("Seat type : "+ts.saveticket);
+			System.out.println("Number of tickets : "+ts.ntickets);
+			System.out.println("SubTotal : Rs."+ts.total);
+		}
+	}
+
+}
